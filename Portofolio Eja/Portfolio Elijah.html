@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Portfolio – UI/UX</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D1F3C;
+    --blue: #1A4A8A;
+    --accent: #3B82F6;
+    --teal: #0EA5A0;
+    --gold: #F59E0B;
+    --coral: #FF6B6B;
+    --white: #FFFFFF;
+    --offwhite: #F7F8FC;
+    --muted: #6B7280;
+    --border: rgba(13,31,60,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--offwhite);
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,165,160,0.12) 0%, transparent 70%);
+    bottom: -80px; left: 200px;
+    animation: pulse 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+  }
+
+  .hero-text {
+    padding: 80px 60px 80px 80px;
+    position: relative; z-index: 2;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(52px, 5vw, 80px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .hero-name span {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.4);
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.8;
+    max-width: 440px;
+    margin-bottom: 44px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: #2563EB; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,0.3); }
+
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 80px 80px 20px;
+    position: relative; z-index: 2;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .photo-frame {
+    position: relative;
+    width: 320px; height: 380px;
+  }
+
+  .photo-frame .bg-shape {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--accent) 100%);
+    border-radius: 24px 60px 24px 60px;
+    opacity: 0.25;
+    transform: rotate(-6deg);
+  }
+
+  /* ─── GAMBAR 1: FOTO PROFIL HERO ─────────────────────────────────────
+     Ini adalah bingkai foto utama di bagian Hero (halaman pertama).
+     Foto ditampilkan dalam bentuk persegi panjang dengan sudut melengkung.
+     Ukuran ideal: 280 x 340 px atau rasio 4:5 (portrait).
+  ──────────────────────────────────────────────────────────────────────── */
+  .hero-photo {
+    position: absolute;
+    inset: 20px;
+    border-radius: 20px 50px 20px 50px;
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, rgba(59,130,246,0.3), rgba(14,165,160,0.3));
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Foto akan memenuhi frame tanpa distorsi */
+    object-position: center top; /* Prioritaskan bagian atas (wajah) */
+    display: block;
+    pointer-events: none; /* Mencegah drag gambar */
+    user-select: none;    /* Mencegah seleksi gambar */
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+  }
+
+  .hero-photo .photo-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 20px;
+  }
+
+  .floating-chip {
+    position: absolute;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .chip-1 { top: 0px; left: -40px; animation: float 4s ease-in-out infinite; }
+  .chip-2 { bottom: 60px; right: -30px; animation: float 5s 1s ease-in-out infinite; }
+  .chip-3 { bottom: 10px; left: -20px; animation: float 3.5s 0.5s ease-in-out infinite; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* ── SECTION WRAPPER ── */
+  section { padding: 100px 80px; }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 3.5vw, 52px);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .section-sub {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 560px;
+  }
+
+  /* ── ABOUT ── */
+  .about { background: white; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+
+
+.about-img-wrap {
+  width: 100%;
+  max-width: 400px; 
+  margin: 0 auto;   
+  aspect-ratio: 4/5;
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+  .about-img-wrap::before {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.06);
+    top: -40px; right: -40px;
+    z-index: 0;
+  }
+
+  .about-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+  }
+
+  .about-img-wrap .photo-fallback {
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .about-content p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #374151;
+    margin-bottom: 20px;
+  }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .tag {
+    background: var(--offwhite);
+    border: 1px solid var(--border);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 100px;
+  }
+
+  /* ── SKILLS ── */
+  .skills { background: var(--offwhite); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 60px;
+  }
+
+  .skill-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px 32px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 24px 24px 0 0;
+  }
+  .skill-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
+  .skill-card:nth-child(2)::before { background: linear-gradient(90deg, var(--teal), var(--gold)); }
+  .skill-card:nth-child(3)::before { background: linear-gradient(90deg, var(--gold), var(--coral)); }
+
+  .skill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(13,31,60,0.08);
+  }
+
+  .skill-icon {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 24px;
+  }
+  .skill-card:nth-child(1) .skill-icon { background: rgba(59,130,246,0.08); }
+  .skill-card:nth-child(2) .skill-icon { background: rgba(14,165,160,0.08); }
+  .skill-card:nth-child(3) .skill-icon { background: rgba(245,158,11,0.08); }
+
+  .skill-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .skill-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .skill-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-tool {
+    background: var(--offwhite);
+    border: 1px solid var(--border);
+    color: #4B5563;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+  }
+
+  /* ── MY WORK ── */
+  .works { background: var(--navy); color: white; }
+  .works .section-title { color: white; }
+  .works .section-sub { color: rgba(255,255,255,0.5); }
+  .works .section-label { color: var(--teal); }
+
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .work-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .work-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-4px);
+  }
+
+  .work-card.featured {
+    grid-column: 1 / -1;
+  }
+
+  /* ─── GAMBAR 3, 4, 5: THUMBNAIL PROYEK ────────────────────────────────
+     Gambar-gambar ini muncul di bagian "My Work".
+     - Gambar 3 = Proyek Featured (banner besar, rasio 21:9 / landscape lebar)
+     - Gambar 4 = Proyek 2 (rasio 16:9)
+     - Gambar 5 = Proyek 3 (rasio 16:9)
+     Ukuran ideal: minimal 800px lebar untuk yang featured, 600px untuk yang lain.
+  ──────────────────────────────────────────────────────────────────────── */
+  .work-thumb {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(14,165,160,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .work-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    transition: transform 0.4s ease;
+  }
+
+  .work-card:hover .work-thumb img {
+    transform: scale(1.03); /* Efek zoom halus saat hover */
+  }
+
+  .work-thumb .photo-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+    padding: 40px;
+  }
+
+  .work-thumb .photo-fallback .plus {
+    font-size: 32px;
+    opacity: 0.2;
+  }
+
+  .work-thumb .photo-fallback small {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.4;
+  }
+
+  .work-body { padding: 24px 28px; }
+  .work-type {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .work-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .work-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.7;
+  }
+
+  /* ── THANK YOU / CONTACT ── */
+  .contact {
+    background: var(--navy);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 80px;
+  }
+
+  /* ── STARS ── */
+  .ty-star {
+    position: absolute;
+    color: rgba(255,255,255,0.15);
+    font-size: 28px;
+    animation: float 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .ty-star-1 { top: 80px; right: 120px; animation-duration: 4s; font-size: 20px; }
+  .ty-star-2 { bottom: 100px; left: 100px; animation-duration: 6s; animation-delay: 1s; font-size: 36px; color: rgba(59,130,246,0.25); }
+  .ty-star-3 { top: 50%; right: 80px; animation-duration: 5s; animation-delay: 0.5s; font-size: 18px; color: rgba(14,165,160,0.3); }
+
+  /* ── DISABLE CONTEXT MENU (klik kanan) ──
+     Mencegah pengunjung menyimpan gambar lewat klik kanan.
+     Diberlakukan via JS di bawah.
+  ── */
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; text-align: center; }
+    .hero-text { padding: 80px 40px 40px; }
+    .hero-visual { padding: 40px 40px 80px; }
+    .hero-desc { margin-left: auto; margin-right: auto; }
+    .hero-ctas { justify-content: center; }
+    .about-grid, .skills-grid, .works-grid { grid-template-columns: 1fr; }
+    section { padding: 70px 32px; }
+    .work-card.featured { grid-column: 1; }
+    .chip-1 { left: -10px; }
+    .chip-2 { right: -10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+  ██████████████████████████████████████████████████████████████████████████
+  ██                                                                        ██
+  ██   PANDUAN MENAMBAHKAN GAMBAR                                           ██
+  ██   ─────────────────────────────────────────────────────────────────    ██
+  ██   Ada 5 gambar yang perlu kamu isi:                                    ██
+  ██                                                                        ██
+  ██   GAMBAR 1 → Foto profil di Hero (bagian atas/pertama)                ██
+  ██   GAMBAR 2 → Foto di bagian "Tentang Saya"                            ██
+  ██   GAMBAR 3 → Thumbnail Proyek Featured (banner besar)                 ██
+  ██   GAMBAR 4 → Thumbnail Proyek 2                                        ██
+  ██   GAMBAR 5 → Thumbnail Proyek 3                                        ██
+  ██                                                                        ██
+  ██   CARA MENGISI GAMBAR:                                                 ██
+  ██   1. Simpan file gambar di folder yang sama dengan file HTML ini.      ██
+  ██   2. Cari bagian bertuliskan ▼ GANTI DI SINI ▼ di bawah.             ██
+  ██   3. Ubah src="NAMA_FILE_GAMBAR_KAMU.jpg" sesuai nama file kamu.      ██
+  ██ 
+  ██                                                                        ██
+  ██   TIPS:                                                                ██
+  ██   • Gunakan format .jpg atau .webp untuk ukuran file yang lebih kecil  ██
+  ██   • Foto profil idealnya berukuran min 600x750px (rasio 4:5)          ██
+  ██   • Thumbnail proyek idealnya min 800x450px (rasio 16:9)              ██
+  ██                                                                        ██
+  ██████████████████████████████████████████████████████████████████████████
+═══════════════════════════════════════════════════════════════════════════ -->
+
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-text">
+    <h1 class="hero-name">ELIJAH<br><span>MAVERICK</span></h1>
+    <p class="hero-desc">
+      Mahasiswa Informatika dengan ketertarikan kuat di bidang desain antarmuka dan pengalaman pengguna.
+    </p>
+    <div class="hero-ctas">
+      <a href="#works" class="btn-primary">Lihat Proyek →</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="photo-frame">
+      <div class="bg-shape"></div>
+
+      <!-- ╔══════════════════════════════════════════════════════╗
+           ║  GAMBAR 1 – FOTO PROFIL HERO                        ║
+           ║  Ukuran ideal: 280×340px, rasio portrait 4:5        ║
+           ║                                                      ║
+           ║  ▼ GANTI DI SINI ▼                                  ║
+           ║  Ubah src menjadi nama file foto kamu               ║
+           ║  Contoh: src="foto-saya.jpg"                        ║
+           ╚══════════════════════════════════════════════════════╝ -->
+      <div class="hero-photo">
+        <img
+          src="Gambar 1.jpeg"
+          alt="Foto Elijah Maverick"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        >
+        <!-- Tampil jika gambar belum diisi — hapus blok ini setelah gambar ditambahkan -->
+        <div class="photo-fallback" style="display:none;">
+          <span style="font-size:40px;">📷</span>
+          <p style="font-size:12px; line-height:1.5;">Ganti src di atas<br>dengan nama file foto kamu</p>
+        </div>
+      </div>
+      <!-- ↑ SELESAI – GAMBAR 1 ↑ -->
+
+      <div class="floating-chip chip-1">🎨 UI Design</div>
+      <div class="floating-chip chip-2">🔬 User Research</div>
+      <div class="floating-chip chip-3">⚡ Prototyping</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ ABOUT ══ -->
+<section class="about" id="about">
+  <div class="section-label">Tentang Saya</div>
+  <h2 class="section-title">Hello! Saya<br>Elijah Maverick</h2>
+
+  <div class="about-grid">
+
+    <div class="about-img-wrap">
+      <img
+        src="Gmabr bagus.jpeg"
+        alt="Foto Elijah Maverick – About Section"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      >
+    </div>
+
+    <div class="about-content">
+      <p>
+        Saya adalah mahasiswa Informatika di Universitas Udayana yang memiliki ketertarikan mendalam
+        pada desain UI/UX. Bagi saya, desain bukan sekadar tentang tampilan yang indah, tetapi
+        tentang bagaimana sebuah produk dapat dirasakan dan digunakan secara alami oleh penggunanya.
+      </p>
+      <p>
+        Saya tertarik pada bidang ini karena visual adalah hal yang paling mudah membuat orang lain
+        terpikat pada suatu hal. Karena itu, saya mulai mempelajari prinsip-prinsip desain, melakukan
+        riset pengguna, dan membangun prototipe.
+      </p>
+      <div class="about-tags">
+        <span class="tag">Figma</span>
+        <span class="tag">Canva</span>
+        <span class="tag">User Research</span>
+        <span class="tag">Prototyping</span>
+        <span class="tag">Wireframing</span>
+        <span class="tag">Design Thinking</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ SKILLS ══ -->
+<section class="skills" id="skills">
+  <div class="section-label">Keahlian</div>
+  <h2 class="section-title">Personal Skills</h2>
+  <p class="section-sub">Tiga area utama yang saya kembangkan.</p>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🔍</div>
+      <div class="skill-name">User Research</div>
+      <p class="skill-desc">
+        Saya memiliki ketertarikan dalam memahami kebutuhan dan perilaku pengguna melalui
+        proses riset yang terstruktur. Mulai dari wawancara pengguna, usability testing,
+        hingga analisis pain point — saya percaya desain yang baik berakar dari empati
+        dan pemahaman mendalam terhadap manusia.
+      </p>
+      <div class="skill-tools">
+        <span class="skill-tool">Interview</span>
+        <span class="skill-tool">Usability Test</span>
+        <span class="skill-tool">Persona</span>
+        <span class="skill-tool">User Journey</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🖌️</div>
+      <div class="skill-name">UI Design</div>
+      <p class="skill-desc">
+        Saya senang merancang antarmuka yang tidak hanya estetis tetapi juga fungsional
+        dan konsisten. Melalui eksplorasi tipografi, warna, layout, dan komponen desain,
+        saya berusaha menciptakan visual yang memberi kesan positif dan mempermudah
+        interaksi pengguna dengan produk.
+      </p>
+      <div class="skill-tools">
+        <span class="skill-tool">Figma</span>
+        <span class="skill-tool">Design System</span>
+        <span class="skill-tool">Typography</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">⚡</div>
+      <div class="skill-name">Prototyping & Testing</div>
+      <p class="skill-desc">
+        Saya memahami pentingnya memvalidasi ide desain sebelum dikembangkan. Saya terbiasa
+        membuat prototype interaktif dari wireframe hingga high-fidelity mockup, lalu
+        mengujinya kepada pengguna untuk mendapatkan feedback nyata yang digunakan
+        untuk iterasi desain lebih lanjut.
+      </p>
+      <div class="skill-tools">
+        <span class="skill-tool">Wireframe</span>
+        <span class="skill-tool">Prototype</span>
+        <span class="skill-tool">A/B Testing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ MY WORK ══ -->
+<section class="works" id="works">
+  <div class="section-label">Karya Saya</div>
+  <h2 class="section-title">My Work</h2>
+  <p class="section-sub">Kumpulan proyek yang saya buat dalam memahami prinsip-prinsip UI/UX design.</p>
+
+  <div class="works-grid">
+
+    <div class="work-card featured">
+      <div class="work-thumb" style="aspect-ratio: 21/9;">
+        <img
+          src="Proyek 1.png"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        >
+      </div>
+      <div class="work-body">
+        <div class="work-type">Web Design · Prototype</div>
+        <div class="work-title">Sistem Pendaftaran Pasien Online</div>
+        <div class="work-desc">desain antarmuka website untuk sistem pendaftaran pasien secara online yang dirancang sederhana,
+          cepat, dan mudah digunakan.Dengan tampilan modern, tata letak terstruktur, serta navigasi yang jelas, desain ini bertujuan 
+          meningkatkan efisiensi layanan klinik sekaligus memberikan pengalaman pengguna yang nyaman dan intuitif.</div>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb" style="aspect-ratio: 16/9;">
+        <img
+          src="Imk.png"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        >
+      </div>
+      <div class="work-body">
+        <div class="work-type">App Design · Prototype</div>
+        <div class="work-title">TirtaEco</div>
+        <div class="work-desc">
+          Sebuah aplikasi digital berbasis keuangan, khususnya yang berfokus pada pengelolaan aset atau wallet. 
+          Tujuan dari proyek ini adalah memberikan gambaran interaksi pengguna yang intuitif, efisien, dan menarik 
+          dalam mengelola keuangan secara digital.
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-thumb" style="aspect-ratio: 16/9;">
+        <img
+          src="Judol.png"
+          alt="Screenshot Proyek 3"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        >
+
+      </div>
+
+      <div class="work-body">
+        <div class="work-type">Web Design · Ekstension</div>
+        <div class="work-title">Gambling Blocker</div>
+        <div class="work-desc">Sebuah ekstensi untuk memblokir situs perjudian saat sedang menggunakan search engine seperti google.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="contact" id="contact">
+
+  <div id="dots-tl" style="position:absolute; top:40px; left:60px; display:grid; grid-template-columns:repeat(5,8px); gap:7px; z-index:0;"></div>
+  <div id="dots-br" style="position:absolute; bottom:50px; right:60px; display:grid; grid-template-columns:repeat(4,8px); gap:7px; z-index:0;"></div>
+
+  <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.18) 0%,transparent 70%);top:-60px;left:10%;pointer-events:none;z-index:0;"></div>
+  <div style="position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,160,0.15) 0%,transparent 70%);bottom:-40px;right:15%;pointer-events:none;z-index:0;"></div>
+
+  <div class="ty-star ty-star-1">✦</div>
+  <div class="ty-star ty-star-2">✦</div>
+  <div class="ty-star ty-star-3">✺</div>
+
+  <div style="position:relative;z-index:2;">
+    <p style="font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:24px;">— Elijah Maverick —</p>
+    <h2 style="font-family:'Syne',sans-serif;font-size:clamp(64px,8vw,120px);font-weight:800;color:white;line-height:0.95;margin-bottom:40px;letter-spacing:-2px;">
+      THANK<br><span style="color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,0.3);">YOU</span>
+    </h2>
+    <div style="width:60px;height:2px;background:linear-gradient(90deg,var(--accent),var(--teal));margin:0 auto 32px;border-radius:2px;"></div>
+    <p style="font-size:16px;color:rgba(255,255,255,0.45);max-width:420px;margin:0 auto 48px;line-height:1.8;">
+    </p>
+    <a href="mailto:elijahmavrck07@gmail.com" style="font-family:'Syne',sans-serif;font-size:clamp(18px,2.5vw,28px);font-weight:700;color:white;text-decoration:none;border-bottom:2px solid rgba(255,255,255,0.15);padding-bottom:6px;display:inline-block;margin-bottom:60px;">
+      elijahmavrck07@gmail.com
+    </a>
+  </div>
+
+  <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;font-size:12px;color:rgba(255,255,255,0.2);letter-spacing:0.05em;position:relative;z-index:2;">
+    © 2025 Elijah Maverick · Informatika
+  </div>
+</section>
+
+
+<script>
+  const tl = document.getElementById('dots-tl');
+  const br = document.getElementById('dots-br');
+  for (let i = 0; i < 25; i++) {
+    const s = document.createElement('span');
+    s.style.cssText = 'width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.12);display:block;';
+    tl.appendChild(s);
+  }
+  for (let i = 0; i < 16; i++) {
+    const s = document.createElement('span');
+    s.style.cssText = 'width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.08);display:block;';
+    br.appendChild(s);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.skill-card, .work-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+
+  document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'IMG') {
+      e.preventDefault();
+    }
+  });
+
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('dragstart', e => e.preventDefault());
+  });
+</script>
+
+</body>
+</html>
